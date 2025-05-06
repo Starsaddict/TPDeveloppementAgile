@@ -38,14 +38,4 @@ public class Utilisateur {
         return historique;
     }
 
-    public void acheter(Action action, int quantite, Jour jour) {
-        portefeuille.acheter(action, quantite);
-        historique.ajouterTransaction(new Transaction(action, quantite, jour, true));
-    }
-
-    public void vendre(Action action, int quantite, Jour jour) {
-        portefeuille.vendre(action, quantite);
-        historique.ajouterTransaction(new Transaction(action, quantite, jour, false));
-    }
 }
-

@@ -15,10 +15,6 @@
  */
 package fr.utc.miage.shares;
 
-public class Administrateur extends Utilisateur {
-
-    public Administrateur(String nom) {
-        super(nom);
-    }
+public class ActionSimpleTest {
 
 }
