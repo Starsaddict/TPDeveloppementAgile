@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AdministrateurTest {
 
     @Test
@@ -57,4 +60,61 @@ public class AdministrateurTest {
             admin.enregistrerCours(action, jour, -50.0f);
         });
     }
+
+    @Test
+    public void testDefinirCompositionValide() {
+        Administrateur admin = new Administrateur("admin");
+        ActionSimple entreprise1 = new ActionSimple("Entreprise_1");
+        ActionSimple entreprise2 = new ActionSimple("Entreprise_2");
+
+        ActionComposee composition = new ActionComposee("Nom_Composition");
+        Map<Action, Float> map = new HashMap<>();
+        map.put(entreprise1, 0.6f);
+        map.put(entreprise2, 0.4f);
+
+        admin.definirComposition(composition, map);
+
+        assertEquals(0.6f, composition.getComposition().get(entreprise1));
+        assertEquals(0.4f, composition.getComposition().get(entreprise2));
+    }
+
+    @Test
+    public void testDefinirCompositionPourcentageInvalide() {
+        Administrateur admin = new Administrateur("admin");
+        ActionSimple entreprise1 = new ActionSimple("Entreprise_1");
+        ActionSimple entreprise2 = new ActionSimple("Entreprise_2");
+
+        ActionComposee composition = new ActionComposee("Nom_Composition");
+        Map<Action, Float> map = new HashMap<>();
+        map.put(entreprise1, 0.7f);
+        map.put(entreprise2, 0.4f); // 总和1.1 (>1.0)
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            admin.definirComposition(composition, map);
+        });
+    }
+
+    @Test
+    public void testDefinirCompositionAvecActionInexistante() {
+        Administrateur admin = new Administrateur("admin");
+        ActionSimple entreprise1 = new ActionSimple("Entreprise_1");
+
+        ActionComposee composition = new ActionComposee("Nom_Composition");
+        Map<Action, Float> map = new HashMap<>();
+        map.put(entreprise1, 0.6f);
+
+        Action fakeAction = new Action("Entreprise_2") {
+            @Override
+            public float valeur(Jour j) {
+                return 0;
+            }
+        };
+        map.put(fakeAction, 0.4f);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            admin.definirComposition(composition, map);
+        });
+    }
+
+
 }

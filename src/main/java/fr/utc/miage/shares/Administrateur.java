@@ -15,13 +15,15 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.Map;
+
 public class Administrateur extends Utilisateur {
 
     public Administrateur(String nom) {
         super(nom);
     }
 
-    // enrg possible si pas de cours pour ce jour
+    // enregistrer possible si pas de cours pour ce jour
     public void enregistrerCours(ActionSimple as, final Jour j, final float v) {
         if (v < 0) {
             // empeche l'enregistrement d'une valeur négative
@@ -32,6 +34,25 @@ public class Administrateur extends Utilisateur {
             throw new IllegalStateException("Un cours est déjà enregistré pour ce jour.");
         }
         as.add(j,v);
+    }
+
+    public void definirComposition(ActionComposee actionComposee, Map<Action, Float> composition) {
+        for (Action action : composition.keySet()) {
+            if (!(action instanceof ActionSimple)) {
+                throw new IllegalArgumentException("Une ou plusieurs actions simples sont introuvables");
+            }
+        }
+        float total = 0;
+        for (Float weight : composition.values()) {
+            if (weight < 0 || weight >1 ) {
+                throw new IllegalArgumentException("Chaque pourcentage doit être compris entre 0 et 1.");
+            }
+            total += weight;
+        }
+        if (Math.abs(total - 1.0f) > 0.001f) {
+            throw new IllegalArgumentException("La somme des pourcentages doit être égale à 1.");
+        }
+        actionComposee.setComposition(composition);
     }
 
 }
