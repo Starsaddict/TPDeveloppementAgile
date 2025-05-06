@@ -64,6 +64,16 @@ public class UtilisateurService {
         utilisateur.getHistorique().ajouterTransaction(transaction);
     }
 
+
+    /**
+     * US#4
+     * Sell a quantity of stock and update the portfolio
+     * 
+     * @param utilisateur User performing the operation
+     * @param action      Stock to sell
+     * @param quantite    Sell quantity
+     * @param jour        Transaction date
+     */
     public void vendreAction(Utilisateur utilisateur, Action action, int quantite, Jour jour) {
         // Check quantity validity
         if (quantite <= 0) {
