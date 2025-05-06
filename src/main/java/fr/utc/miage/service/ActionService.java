@@ -19,8 +19,7 @@ import fr.utc.miage.shares.Action;
 import fr.utc.miage.shares.Jour;
 
 public class ActionService {
-    
-    /**
+        /**
      * US#2: Get the value of a stock on a specific day.
      *
      * @param action The stock to check (can be ActionSimple or ActionComposee)

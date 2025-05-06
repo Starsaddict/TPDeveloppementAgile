@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import fr.utc.miage.service.ActionService;
 import fr.utc.miage.shares.ActionComposee;
 import fr.utc.miage.shares.ActionSimple;
+import fr.utc.miage.shares.Administrateur;
 import fr.utc.miage.shares.Jour;
 
 public class ActionServiceTest {
@@ -39,7 +40,7 @@ public class ActionServiceTest {
         apple.enrgCours(jour, 150.0f);
 
         float valeur = ActionService.consulterValeurAction(apple, jour);
-        assertEquals(150.0f, valeur, DELTA);
+        assertEquals(150.0f, valeur, 0.001f);
     }
 
     // Waiting for US#5 to be completed
