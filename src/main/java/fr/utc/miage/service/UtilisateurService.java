@@ -15,6 +15,53 @@
  */
 package fr.utc.miage.service;
 
+import java.util.Map;
+
+import fr.utc.miage.shares.Action;
+import fr.utc.miage.shares.Jour;
+import fr.utc.miage.shares.Transaction;
+import fr.utc.miage.shares.Utilisateur;
+
 public class UtilisateurService {
+
+    /**
+     * US#3
+     * Purchase a quantity of stock and update the portfolio
+     * 
+     * @param utilisateur User performing the operation
+     * @param action      Stock to purchase
+     * @param quantite    Purchase quantity
+     * @param jour        Transaction date
+     */
+
+    public void acheterAction(Utilisateur utilisateur, Action action, int quantite, Jour jour) {
+        // check quantite > 0
+        if (quantite <= 0) {
+            throw new IllegalArgumentException("Purchase quantity must be positive");
+        }
+
+        // get prix total
+        float prixUn = action.valeur(jour);
+        float totalprix = prixUn * quantite;
+
+        // check soldes more than cost
+        if (utilisateur.getSoldes() < totalprix) {
+            throw new IllegalStateException(
+                    "Insufficient balance, Required " + totalprix + ", available: " + utilisateur.getSoldes());
+        }
+
+        // debit soldes
+        utilisateur.setSoldes(utilisateur.getSoldes() - totalprix);
+
+        // get Portefeuille
+        Map<Action, Integer> actions = utilisateur.getPortefeuille().getActions();
+
+        // Merge stock quantity (add if it exists, otherwise create a new entry
+        actions.merge(action, quantite, Integer::sum);
+
+        // Record transaction history
+        Transaction transaction = new Transaction(action, quantite, jour, true);
+        utilisateur.getHistorique().ajouterTransaction(transaction);
+    }
 
 }
