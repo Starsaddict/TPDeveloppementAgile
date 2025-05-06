@@ -171,9 +171,11 @@ class UtilisateurServiceTest {
         assertThrows(IllegalStateException.class,
                 () -> service.vendreAction(user, stock, sellQuantity, tradingDay));
 
-        // verify portefeurill does not changed
-        assertEquals(5, user.getPortefeuille().getActions().get(stock));
-        assertEquals(2000.0f, user.getSoldes(), 0.001f);
+        // Verify portfolio remains unchanged (20 shares)
+        assertEquals(20, user.getPortefeuille().getActions().get(stock),
+        "Portfolio should remain unchanged with 20 shares");
+        assertEquals(2000.0f, user.getSoldes(), 0.001f,
+        "Balance should remain unchanged");
     }
 
     /**
