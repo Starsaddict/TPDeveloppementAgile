@@ -15,15 +15,27 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.Set;
+
 public class Utilisateur {
     private final String nom;
+    private float soldes;
     private final Portefeuille portefeuille;
     private final Historique historique;
 
     public Utilisateur(String nom) {
         this.nom = nom;
+        this.soldes = 0;
         this.portefeuille = new Portefeuille();
         this.historique = new Historique();
+    }
+
+    public void setSoldes(float soldes) {
+        this.soldes = soldes;
+    }
+
+    public float getSoldes() {
+        return this.soldes;
     }
 
     public String getNom() {

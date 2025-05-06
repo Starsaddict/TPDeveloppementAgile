@@ -15,6 +15,11 @@
  */
 package fr.utc.miage.service;
 
-public class ActionService {
+import fr.utc.miage.shares.Jour;
 
+public class ActionService {
+    public static float getprix(Jour jour) {
+        float result = 0;
+        return result;
+    }
 }

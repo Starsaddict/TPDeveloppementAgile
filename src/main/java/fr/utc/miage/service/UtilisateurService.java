@@ -25,20 +25,33 @@ import fr.utc.miage.shares.Utilisateur;
 public class UtilisateurService {
 
     /**
-    * US#3
-    * Purchase a quantity of stock and update the portfolio
-    * 
-    * @param utilisateur  User performing the operation
-    * @param action  Stock to purchase
-    * @param quantite  Purchase quantity
-    * @param jour  Transaction date
-    */
+     * US#3
+     * Purchase a quantity of stock and update the portfolio
+     * 
+     * @param utilisateur User performing the operation
+     * @param action      Stock to purchase
+     * @param quantite    Purchase quantity
+     * @param jour        Transaction date
+     */
 
     public void acheterAction(Utilisateur utilisateur, Action action, int quantite, Jour jour) {
         // check quantite > 0
         if (quantite <= 0) {
             throw new IllegalArgumentException("Purchase quantity must be positive");
         }
+
+        // get prix total
+        float prixUn = action.valeur(jour);
+        float totalprix = prixUn * quantite;
+
+        // check soldes more than cost
+        if (utilisateur.getSoldes() < totalprix) {
+            throw new IllegalArgumentException(
+                    "Insufficient balance, Required " + totalprix + ", available: " + utilisateur.getSoldes());
+        }
+
+        // debit soldes
+        utilisateur.setSoldes(utilisateur.getSoldes() - totalprix);
 
         // get Portefeuille
         Map<Action, Integer> actions = utilisateur.getPortefeuille().getActions();
