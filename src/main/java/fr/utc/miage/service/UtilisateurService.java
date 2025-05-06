@@ -64,4 +64,49 @@ public class UtilisateurService {
         utilisateur.getHistorique().ajouterTransaction(transaction);
     }
 
+
+    /**
+     * US#4
+     * Sell a quantity of stock and update the portfolio
+     * 
+     * @param utilisateur User performing the operation
+     * @param action      Stock to sell
+     * @param quantite    Sell quantity
+     * @param jour        Transaction date
+     */
+    public void vendreAction(Utilisateur utilisateur, Action action, int quantite, Jour jour) {
+        // Check quantity validity
+        if (quantite <= 0) {
+            throw new IllegalArgumentException("Sale quantity must be positive");
+        }
+
+        // Get portfolio and check stock ownership
+        Map<Action, Integer> portfolio = utilisateur.getPortefeuille().getActions();
+        int ownedQuantity = portfolio.getOrDefault(action, 0);
+
+        if (ownedQuantity < quantite) {
+            throw new IllegalStateException(
+                    "Insufficient stock quantity. Owned: " + ownedQuantity + ", requested: " + quantite);
+        }
+
+        // Calculate proceeds
+        float price = action.valeur(jour);
+        float totalProceeds = price * quantite;
+
+        // Update balance
+        utilisateur.setSoldes(utilisateur.getSoldes() + totalProceeds);
+
+        // Update portfolio
+        int newQuantity = ownedQuantity - quantite;
+        if (newQuantity == 0) {
+            portfolio.remove(action);
+        } else {
+            portfolio.put(action, newQuantity);
+        }
+
+        // Record transaction
+        Transaction transaction = new Transaction(action, quantite, jour, false);
+        utilisateur.getHistorique().ajouterTransaction(transaction);
+    }
+
 }
