@@ -38,6 +38,7 @@ public class ActionSimple extends Action {
         this.mapCours = new HashMap<>();
     }
 
+    //Affichier le map Cours
     public Map<Jour, Float> getMapCours() {
         return mapCours;
     }

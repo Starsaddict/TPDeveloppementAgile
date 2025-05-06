@@ -40,6 +40,7 @@ public class Utilisateur {
         return historique;
     }
 
+    // Affichier le Historique de une action
     public Map<Jour, Float> AfficherHistoriqueCour(ActionSimple as){
         return as.getMapCours();
     }

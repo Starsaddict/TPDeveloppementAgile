@@ -61,7 +61,7 @@ public class UtilisateurTest {
 
         Map<Jour, Float> historiqueComplet = utilisateur.AfficherHistoriqueCour(action);
 
-        // When: je choisis un filtre "6 derniers mois"
+        // Si le filtre est 6 mois
         Map<Jour, Float> historiqueFiltre = new HashMap<>();
         LocalDate sixMonthsAgo = today.minusMonths(6);
 
