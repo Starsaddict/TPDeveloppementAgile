@@ -44,7 +44,6 @@ public class AdministrateurTest {
 
         admin.enregistrerCours(action, jour, 300.5f);
 
-        // tentative d'enregistrement du mm jour -- doit échouer
         assertThrows(IllegalStateException.class, () -> {
             admin.enregistrerCours(action, jour, 310.0f);
         });
@@ -59,6 +58,20 @@ public class AdministrateurTest {
         assertThrows(IllegalArgumentException.class, () -> {
             admin.enregistrerCours(action, jour, -50.0f);
         });
+    }
+
+    @Test
+    public void testEnregistrerCoursPlusieursJours() {
+        Administrateur admin = new Administrateur("admin");
+        ActionSimple action = new ActionSimple("Tesla");
+        Jour jour1 = new Jour(2025, 120);
+        Jour jour2 = new Jour(2025, 121);
+
+        admin.enregistrerCours(action, jour1, 300.5f);
+        admin.enregistrerCours(action, jour2, 310.0f);
+
+        assertEquals(300.5f, action.valeur(jour1));
+        assertEquals(310.0f, action.valeur(jour2));
     }
 
     @Test
@@ -87,7 +100,7 @@ public class AdministrateurTest {
         ActionComposee composition = new ActionComposee("Nom_Composition");
         Map<Action, Float> map = new HashMap<>();
         map.put(entreprise1, 0.7f);
-        map.put(entreprise2, 0.4f); // 总和1.1 (>1.0)
+        map.put(entreprise2, 0.4f);
 
         assertThrows(IllegalArgumentException.class, () -> {
             admin.definirComposition(composition, map);
@@ -116,5 +129,50 @@ public class AdministrateurTest {
         });
     }
 
+    @Test
+    public void testDefinirCompositionPourcentageNegatif() {
+        Administrateur admin = new Administrateur("admin");
+        ActionSimple entreprise1 = new ActionSimple("Entreprise_1");
+        ActionSimple entreprise2 = new ActionSimple("Entreprise_2");
 
+        ActionComposee composition = new ActionComposee("Nom_Composition");
+        Map<Action, Float> map = new HashMap<>();
+        map.put(entreprise1, -0.3f);
+        map.put(entreprise2, 1.3f);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            admin.definirComposition(composition, map);
+        });
+    }
+
+    @Test
+    public void testDefinirCompositionAvecPetiteErreurDePrecision() {
+        Administrateur admin = new Administrateur("admin");
+        ActionSimple entreprise1 = new ActionSimple("Entreprise_1");
+        ActionSimple entreprise2 = new ActionSimple("Entreprise_2");
+
+        ActionComposee composition = new ActionComposee("Nom_Composition");
+        Map<Action, Float> map = new HashMap<>();
+        map.put(entreprise1, 0.5001f);
+        map.put(entreprise2, 0.4999f);
+
+        admin.definirComposition(composition, map);
+
+        assertEquals(0.5001f, composition.getComposition().get(entreprise1));
+        assertEquals(0.4999f, composition.getComposition().get(entreprise2));
+    }
+
+    @Test
+    public void testDefinirComposition100Pourcent() {
+        Administrateur admin = new Administrateur("admin");
+        ActionSimple entreprise1 = new ActionSimple("Entreprise_1");
+
+        ActionComposee composition = new ActionComposee("Nom_Composition");
+        Map<Action, Float> map = new HashMap<>();
+        map.put(entreprise1, 1.0f);
+
+        admin.definirComposition(composition, map);
+
+        assertEquals(1.0f, composition.getComposition().get(entreprise1));
+    }
 }
