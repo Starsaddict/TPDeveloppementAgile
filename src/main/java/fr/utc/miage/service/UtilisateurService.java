@@ -46,7 +46,7 @@ public class UtilisateurService {
 
         // check soldes more than cost
         if (utilisateur.getSoldes() < totalprix) {
-            throw new IllegalArgumentException(
+            throw new IllegalStateException(
                     "Insufficient balance, Required " + totalprix + ", available: " + utilisateur.getSoldes());
         }
 
