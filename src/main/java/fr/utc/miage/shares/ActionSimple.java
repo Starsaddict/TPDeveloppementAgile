@@ -53,6 +53,7 @@ public class ActionSimple extends Action {
         }
         this.add(j,v);
     }
+    
     public void add(Jour j, Float v) {
         mapCours.put(j, v);
     }
