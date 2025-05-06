@@ -21,4 +21,9 @@ public class Administrateur extends Utilisateur {
         super(nom);
     }
 
+    // enrg possible si pas de cours pour ce jour
+    public void enregistrerCours(ActionSimple as, final Jour j, final float v) {
+        as.enrgCours(j,v);
+    }
+
 }
