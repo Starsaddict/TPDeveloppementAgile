@@ -198,4 +198,21 @@ class UtilisateurServiceTest {
         // Verify balance update
         assertEquals(2000 + expectedProceeds, user.getSoldes(), 0.001f);
     }
+
+    /**
+     * US#4 
+     * Test#50: Invalid quantity (zero or negative)
+     * - Should throw IllegalArgumentException
+     * - Should preserve original state
+     */
+    @Test
+    void sellStock_WithInvalidQuantity_ShouldThrowException() {
+        user.getPortefeuille().getActions().put(stock, 10);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> service.vendreAction(user, stock, 0, tradingDay));
+
+        assertThrows(IllegalArgumentException.class,
+            () -> service.vendreAction(user, stock, -5, tradingDay));
+    }
 }
