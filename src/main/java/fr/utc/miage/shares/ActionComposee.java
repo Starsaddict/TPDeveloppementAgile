@@ -26,10 +26,6 @@ public class ActionComposee extends Action {
         this.composition = new HashMap<>();
     }
 
-    public void ajouterAction(Action action, float proportion) {
-        this.composition.put(action, proportion);
-    }
-
     @Override
     public float valeur(Jour j) {
         float total = 0f;
@@ -43,4 +39,3 @@ public class ActionComposee extends Action {
         return composition;
     }
 }
-

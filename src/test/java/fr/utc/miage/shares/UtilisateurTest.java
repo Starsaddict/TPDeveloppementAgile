@@ -1,3 +1,5 @@
+package fr.utc.miage.shares;
+
 /*
  * Copyright 2025 David Navarre &lt;David.Navarre at irit.fr&gt;.
  *
@@ -13,12 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.utc.miage.shares;
-
-public class Administrateur extends Utilisateur {
-
-    public Administrateur(String nom) {
-        super(nom);
-    }
+public class UtilisateurTest {
 
 }

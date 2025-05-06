@@ -16,4 +16,5 @@
 package fr.utc.miage.service;
 
 public class AdministrateurService {
+
 }
