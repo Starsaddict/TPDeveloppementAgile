@@ -22,6 +22,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import fr.utc.miage.service.ActionService;
+import fr.utc.miage.shares.ActionComposee;
 import fr.utc.miage.shares.ActionSimple;
 import fr.utc.miage.shares.Jour;
 
@@ -43,6 +44,30 @@ public class ActionServiceTest {
 
     // Waiting for US#5 to be completed
     // [Test #17] Display value of a composed action for a given day
+    @Test
+    @DisplayName("[Test #17] Display value of a composed action for a given day")
+    public void testValeurActionComposeePourJourDonne() {
+        ActionSimple google = new ActionSimple("Google");
+        ActionSimple amazon = new ActionSimple("Amazon");
+
+        Jour jour = new Jour(2025, 100);
+
+        // Enregistrer les cours pour ce jour
+        google.add(jour, 100.0f);   // Valeur : 100
+        amazon.add(jour, 200.0f);   // Valeur : 200
+
+        // Créer une action composée
+        ActionComposee techBundle = new ActionComposee("TechBundle");
+        techBundle.getComposition().put(google, 0.5f);
+        techBundle.getComposition().put(amazon, 0.5f);
+
+        // Calculer la valeur attendue :
+        // 0.5 * 100 + 0.5 * 200 = 150.0
+        float valeur = techBundle.valeur(jour);
+
+        // Vérifier le résultat
+        assertEquals(150.0f, valeur, 0.001f);
+    }
 
     // [Test #18] Show 0 if no value is registered for the day
     @Test
