@@ -21,4 +21,17 @@ public class Administrateur extends Utilisateur {
         super(nom);
     }
 
+    // enrg possible si pas de cours pour ce jour
+    public void enrgCours(ActionSimple as, final Jour j, final float v) {
+        if (v < 0) {
+            // empeche l'enregistrement d'une valeur négative
+            throw new IllegalArgumentException("La valeur doit être positive.");
+        }
+        //empêche l'enregistrement en double pour un même jour
+        if (as.getMapCours().containsKey(j)) {
+            throw new IllegalStateException("Un cours est déjà enregistré pour ce jour.");
+        }
+        as.add(j,v);
+    }
+
 }

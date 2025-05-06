@@ -38,19 +38,13 @@ public class ActionSimple extends Action {
         this.mapCours = new HashMap<>();
     }
 
-    // enrg possible si pas de cours pour ce jour
-    public void enrgCours(final Jour j, final float v) {
-        if (v < 0) {
-            // empeche l'enregistrement d'une valeur négative
-            throw new IllegalArgumentException("La valeur doit être positive.");
-        }
-        //empêche l'enregistrement en double pour un même jour
-        if (this.mapCours.containsKey(j)) {
-            throw new IllegalStateException("Un cours est déjà enregistré pour ce jour.");
-        }
-        this.mapCours.put(j, v);
+    public Map<Jour, Float> getMapCours() {
+        return mapCours;
     }
-    
+
+    public void add(Jour j, Float v) {
+        mapCours.put(j, v);
+    }
 
     @Override
     public float valeur(final Jour j) {
