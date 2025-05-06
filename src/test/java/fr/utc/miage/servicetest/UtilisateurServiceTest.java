@@ -15,6 +15,41 @@
  */
 package fr.utc.miage.servicetest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+
+import fr.utc.miage.shares.ActionSimple;
+import fr.utc.miage.shares.Jour;
+
 public class UtilisateurServiceTest {
+
+    //test#12 pour vérifier que l’historique qui est retourné contient tous les cours enregistrés
+    @Test
+    public void testUS8_HistoriqueCompletActionExistante() {
+        ActionSimple action = new ActionSimple("Total");
+        Jour j1 = new Jour(2025, 100);
+        Jour j2 = new Jour(2025, 101);
+        action.enrgCours(j1, 100.0f);
+        action.enrgCours(j2, 110.0f);
+
+        Map<Jour, Float> historique = action.getHistorique();
+
+        assertEquals(2, historique.size());
+        assertEquals(100.0f, historique.get(j1));
+        assertEquals(110.0f, historique.get(j2));
+    }
+    @Test
+    //test#20 pour VERIFIER QUE l'HISTORIQUE est vide si aucune action enregistré 
+    public void testUS8_HistoriqueActionVide() {
+        ActionSimple action = new ActionSimple("NouvelleAction");
+
+        Map<Jour, Float> historique = action.getHistorique();
+
+        assertTrue(historique.isEmpty());
+    }
 
 }
