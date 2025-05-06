@@ -22,7 +22,7 @@ public class Administrateur extends Utilisateur {
     }
 
     // enrg possible si pas de cours pour ce jour
-    public void enrgCours(ActionSimple as, final Jour j, final float v) {
+    public void enregistrerCours(ActionSimple as, final Jour j, final float v) {
         if (v < 0) {
             // empeche l'enregistrement d'une valeur négative
             throw new IllegalArgumentException("La valeur doit être positive.");
