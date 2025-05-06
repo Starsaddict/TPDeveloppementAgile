@@ -15,6 +15,40 @@
  */
 package fr.utc.miage.service;
 
-public class PortefeuilleService {
+import java.util.Map;
 
+import fr.utc.miage.shares.Action;
+import fr.utc.miage.shares.Jour;
+import fr.utc.miage.shares.Portefeuille;
+
+public class PortefeuilleService {
+    /**
+     * US#7: Calculate total value of a portfolio on a given day.
+     *
+     * @param portefeuille the user's portfolio
+     * @param jour         the day to evaluate
+     * @return the total value
+     * @throws IllegalArgumentException if an action has no value for that day
+     */
+    public static float calculerValeurTotale(Portefeuille portefeuille, Jour jour) {
+        if (jour == null) {
+            throw new IllegalArgumentException("Day cannot be null");
+        }
+
+        float total = 0f;
+
+        for (Map.Entry<Action, Integer> entry : portefeuille.getActions().entrySet()) {
+            Action action = entry.getKey();
+            int quantite = entry.getValue();
+            float valeur = action.valeur(jour);
+
+            if (valeur == 0f) {
+                throw new IllegalStateException("No value found for action '" + action.getLibelle() + "' on " + jour);
+            }
+
+            total += quantite * valeur;
+        }
+
+        return total;
+    }
 }
