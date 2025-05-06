@@ -21,6 +21,8 @@ import java.util.Map;
 public class ActionComposee extends Action {
     private final Map<Action, Float> composition;
 
+
+
     public ActionComposee(String libelle) {
         super(libelle);
         this.composition = new HashMap<>();
@@ -38,4 +40,22 @@ public class ActionComposee extends Action {
     public Map<Action, Float> getComposition() {
         return composition;
     }
+
+    public void setComposition(Map<Action, Float> composition) {
+        this.composition.clear();
+        this.composition.putAll(composition);
+    }
+
+
+    public boolean verifier(){
+        float total = 0;
+        for (Float entry : composition.values()) {
+            total += entry;
+        }
+        return Math.abs(total - 1.0f) < 0.001f;
+
+    }
+
+
+
 }
