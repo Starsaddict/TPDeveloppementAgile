@@ -65,4 +65,9 @@ public class ActionSimple extends Action {
             return DEFAULT_ACTION_VALUE;
         }
     }
+    //US 8
+    public Map<Jour, Float> getHistorique() {
+        return new HashMap<>(mapCours); // copie défensive
+    }
+    
 }
