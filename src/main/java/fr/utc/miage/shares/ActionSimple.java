@@ -42,6 +42,17 @@ public class ActionSimple extends Action {
         return mapCours;
     }
 
+    public void enrgCours (final Jour j, final float v){
+        if (v < 0) {
+            // empeche l'enregistrement d'une valeur négative
+            throw new IllegalArgumentException("La valeur doit être positive.");
+        }
+        //empêche l'enregistrement en double pour un même jour
+        if (this.getMapCours().containsKey(j)) {
+            throw new IllegalStateException("Un cours est déjà enregistré pour ce jour.");
+        }
+        this.add(j,v);
+    }
     public void add(Jour j, Float v) {
         mapCours.put(j, v);
     }
@@ -54,4 +65,9 @@ public class ActionSimple extends Action {
             return DEFAULT_ACTION_VALUE;
         }
     }
+    //US 8
+    public Map<Jour, Float> getHistorique() {
+        return new HashMap<>(mapCours); // copie défensive
+    }
+    
 }
