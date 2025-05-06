@@ -172,4 +172,24 @@ class UtilisateurServiceTest {
         assertEquals(5, user.getPortefeuille().getActions().get(stock));
         assertEquals(2000.0f, user.getSoldes(), 0.001f);
     }
+
+    /**
+     * US#4 Test Case 3: Sell all owned shares
+     * - Should remove stock from portfolio
+     * - Should update balance correctly
+     */
+    @Test
+    void sellAllStock_ShouldRemoveFromPortfolio() {
+        // Setup initial portfolio
+        user.getPortefeuille().getActions().put(stock, 15);
+        float expectedProceeds = 150.0f * 15;
+
+        service.vendreAction(user, stock, 15, tradingDay);
+
+        // Verify stock removed from portfolio
+        assertFalse(user.getPortefeuille().getActions().containsKey(stock));
+        
+        // Verify balance update
+        assertEquals(2000 + expectedProceeds, user.getSoldes(), 0.001f);
+    }
 }
