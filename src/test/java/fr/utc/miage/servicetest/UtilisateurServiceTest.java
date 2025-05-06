@@ -128,8 +128,10 @@ class UtilisateurServiceTest {
 
     /**
      * US#4
-     * Test#27: Vendre une action détenue avec succès
-     * la quantité de l'action est réduite dans mon portefeuille
+     * Test#27: Sell valid quantity
+     * - Should reduce shares in portfolio
+     * - Should update balance correctly
+     * - Should record sell transaction
      */
     @Test
     void sellStock_WithValidQuantity_ShouldSucceed() {
@@ -155,8 +157,9 @@ class UtilisateurServiceTest {
 
     /**
      * US#4
-     * Test#27: vendre une quantite de action superieur a la quantite detenu
-     * un message d'erreur s'affiche indiquant que la quantité est invalide
+     * Test#28: Sell more than owned shares
+     * - Should throw IllegalStateException
+     * - Should preserve original portfolio and balance
      */
     @Test
     void sellStock_WithExcessiveQuantity_ShouldThrowException() {
@@ -174,7 +177,8 @@ class UtilisateurServiceTest {
     }
 
     /**
-     * US#4 Test Case 3: Sell all owned shares
+     * US#4 
+     * Test#41 : Sell all owned shares
      * - Should remove stock from portfolio
      * - Should update balance correctly
      */
