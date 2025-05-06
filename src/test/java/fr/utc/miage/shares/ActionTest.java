@@ -15,8 +15,13 @@
  */
 package fr.utc.miage.shares;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import fr.utc.miage.service.ActionService;
 
 class ActionTest {
 
@@ -97,5 +102,57 @@ class ActionTest {
             return 0.0F;
         }
     }
+
+    // [Test #13] Display value of a simple action for a given day
+    @Test
+    public void testSimpleActionValueOnValidDay() {
+        ActionSimple apple = new ActionSimple("Apple");
+        Jour jour = new Jour(2025, 100);
+        apple.enrgCours(jour, 150.0f);
+
+        float valeur = ActionService.consulterValeurAction(apple, jour);
+        assertEquals(150.0f, valeur, 0.001f);
+    }
+
+    // // [Test #17] Display value of a composed action for a given day
+    // @Test
+    // public void testComposedActionValueOnValidDay() {
+    //     ActionSimple google = new ActionSimple("Google");
+    //     ActionSimple amazon = new ActionSimple("Amazon");
+    //     Jour jour = new Jour(2025, 101);
+
+    //     google.enrgCours(jour, 100f);
+    //     amazon.enrgCours(jour, 200f);
+
+    //     ActionComposee index = new ActionComposee("TechIndex");
+    //     index.ajouterAction(google, 0.5f);
+    //     index.ajouterAction(amazon, 0.5f);
+
+    //     float valeur = ActionService.consulterValeurAction(index, jour);
+    //     assertEquals(150.0f, valeur, 0.001f);
+    // }
+
+    // [Test #18] Show 0 if no value is registered for the day
+    @Test
+    public void testActionValueOnDayWithNoData() {
+        ActionSimple tesla = new ActionSimple("Tesla");
+        Jour jour = new Jour(2025, 102); // no value registered
+
+        float valeur = ActionService.consulterValeurAction(tesla, jour);
+        assertEquals(0.0f, valeur, 0.001f);
+    }
+
+    // [Test #23] Show error if no date is selected (null)
+    @Test
+    public void testErrorWhenDateIsNull() {
+        ActionSimple ibm = new ActionSimple("IBM");
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            ActionService.consulterValeurAction(ibm, null);
+        });
+
+        assertEquals("Please select a valid day!", exception.getMessage());
+    }
+
 
 }
