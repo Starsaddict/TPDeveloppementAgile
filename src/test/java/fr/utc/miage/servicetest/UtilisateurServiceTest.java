@@ -15,14 +15,10 @@
  */
 package fr.utc.miage.servicetest;
 
-
-public class UtilisateurServiceTest {
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -177,13 +173,13 @@ class UtilisateurServiceTest {
 
         // Verify portfolio remains unchanged (20 shares)
         assertEquals(20, user.getPortefeuille().getActions().get(stock),
-        "Portfolio should remain unchanged with 20 shares");
+                "Portfolio should remain unchanged with 20 shares");
         assertEquals(2000.0f, user.getSoldes(), 0.001f,
-        "Balance should remain unchanged");
+                "Balance should remain unchanged");
     }
 
     /**
-     * US#4 
+     * US#4
      * Test#41 : Sell all owned shares
      * - Should remove stock from portfolio
      * - Should update balance correctly
@@ -198,13 +194,13 @@ class UtilisateurServiceTest {
 
         // Verify stock removed from portfolio
         assertFalse(user.getPortefeuille().getActions().containsKey(stock));
-        
+
         // Verify balance update
         assertEquals(2000 + expectedProceeds, user.getSoldes(), 0.001f);
     }
 
     /**
-     * US#4 
+     * US#4
      * Test#50: Invalid quantity (zero or negative)
      * - Should throw IllegalArgumentException
      * - Should preserve original state
@@ -214,9 +210,9 @@ class UtilisateurServiceTest {
         user.getPortefeuille().getActions().put(stock, 10);
 
         assertThrows(IllegalArgumentException.class,
-            () -> service.vendreAction(user, stock, 0, tradingDay));
+                () -> service.vendreAction(user, stock, 0, tradingDay));
 
         assertThrows(IllegalArgumentException.class,
-            () -> service.vendreAction(user, stock, -5, tradingDay));
+                () -> service.vendreAction(user, stock, -5, tradingDay));
     }
 }
