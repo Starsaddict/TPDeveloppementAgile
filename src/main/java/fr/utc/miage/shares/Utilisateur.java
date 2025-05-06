@@ -15,7 +15,11 @@
  */
 package fr.utc.miage.shares;
 
+
+import java.util.Map;
+
 import java.util.Set;
+
 
 public class Utilisateur {
     private final String nom;
@@ -48,6 +52,11 @@ public class Utilisateur {
 
     public Historique getHistorique() {
         return historique;
+    }
+
+    // Affichier le Historique de une action
+    public Map<Jour, Float> AfficherHistoriqueCour(ActionSimple as){
+        return as.getMapCours();
     }
 
 }

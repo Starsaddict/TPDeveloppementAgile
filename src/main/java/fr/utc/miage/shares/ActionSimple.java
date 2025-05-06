@@ -38,11 +38,16 @@ public class ActionSimple extends Action {
         this.mapCours = new HashMap<>();
     }
 
+    //Affichier le map Cours
     public Map<Jour, Float> getMapCours() {
         return mapCours;
     }
 
-    public void enrgCours (final Jour j, final float v){
+    public void add(Jour j, Float v) {
+        mapCours.put(j, v);
+    }
+
+    public void enrgCours(final Jour j, final float v){
         if (v < 0) {
             // empeche l'enregistrement d'une valeur négative
             throw new IllegalArgumentException("La valeur doit être positive.");
@@ -53,6 +58,7 @@ public class ActionSimple extends Action {
         }
         this.add(j,v);
     }
+
     
     public void add(Jour j, Float v) {
         mapCours.put(j, v);
@@ -66,4 +72,5 @@ public class ActionSimple extends Action {
             return DEFAULT_ACTION_VALUE;
         }
     }
+    
 }

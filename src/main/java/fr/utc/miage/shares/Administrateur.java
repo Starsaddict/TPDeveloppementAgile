@@ -28,6 +28,7 @@ public class Administrateur extends Utilisateur {
         as.enrgCours(j,v);
     }
 
+    //definir
     public void definirComposition(ActionComposee actionComposee, Map<Action, Float> composition) {
         for (Action action : composition.keySet()) {
             if (!(action instanceof ActionSimple)) {
