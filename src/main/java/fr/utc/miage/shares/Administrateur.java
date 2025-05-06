@@ -6,12 +6,12 @@ public class Administrateur extends Utilisateur {
         super(nom);
     }
 
-    // 添加每日股价
+    // Add daily stock price
     public void enregistrerCours(ActionSimple action, Jour jour, float valeur) {
         action.enrgCours(jour, valeur);
     }
 
-    // 添加复合股票组件
+    // Adding a Composite Stock Component
     public void definirComposition(ActionComposee actionComposee, Action composant, float proportion) {
         actionComposee.ajouterAction(composant, proportion);
     }

@@ -22,20 +22,5 @@ public class Utilisateur {
     public Historique getHistorique() {
         return historique;
     }
-
-    public void acheter(Action action, int quantite, Jour jour) {
-        portefeuille.acheter(action, quantite);
-        historique.ajouterTransaction(new Transaction(action, quantite, jour, true));
-    }
-
-    public void vendre(Action action, int quantite, Jour jour) {
-        portefeuille.vendre(action, quantite);
-        historique.ajouterTransaction(new Transaction(action, quantite, jour, false));
-    }
-
-    // US#2 Query the value of a certain stock on a certain day
-    public float consulterValeurAction(Action action, Jour jour) {
-        return action.valeur(jour);
-    }
 }
 

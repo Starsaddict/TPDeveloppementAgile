@@ -15,6 +15,9 @@
  */
 package fr.utc.miage.shares;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -96,6 +99,53 @@ class ActionTest {
         public float valeur(final Jour aJour) {
             return 0.0F;
         }
+    }
+
+        @Test
+    void testValeurActionSimplePourUnJourDonne() {
+        ActionSimple apple = new ActionSimple("Apple");
+        Jour jour = new Jour(2025, 100);
+        apple.enrgCours(jour, 150.5f);
+
+        float valeur = ActionMethode.consulterValeurAction(apple, jour);
+        assertEquals(150.5f, valeur, 0.001f);
+    }
+
+    @Test
+    void testValeurActionComposeePourUnJourDonne() {
+        ActionSimple google = new ActionSimple("Google");
+        ActionSimple amazon = new ActionSimple("Amazon");
+
+        Jour jour = new Jour(2025, 101);
+        google.enrgCours(jour, 100f);
+        amazon.enrgCours(jour, 200f);
+
+        ActionComposee techIndex = new ActionComposee("TechIndex");
+        techIndex.ajouterAction(google, 0.6f);
+        techIndex.ajouterAction(amazon, 0.4f);
+
+        float valeur = ActionMethode.consulterValeurAction(techIndex, jour);
+        assertEquals(140f, valeur, 0.001f); // 0.6 * 100 + 0.4 * 200
+    }
+
+    @Test
+    void testValeurNonDisponiblePourDate() {
+        ActionSimple tesla = new ActionSimple("Tesla");
+        Jour jourSansValeur = new Jour(2025, 102);
+
+        float valeur = ActionMethode.consulterValeurAction(tesla, jourSansValeur);
+        assertEquals(0f, valeur, 0.001f);
+    }
+
+    @Test
+    void testAucuneDateChoisie() {
+        ActionSimple ibm = new ActionSimple("IBM");
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            ActionMethode.consulterValeurAction(ibm, null);
+        });
+
+        assertEquals("Veuillez sélectionner une date !", exception.getMessage());
     }
 
 }
